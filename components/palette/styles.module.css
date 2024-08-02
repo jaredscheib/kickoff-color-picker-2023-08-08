@@ -1,0 +1,11 @@
+.palette {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.paletteRow {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}

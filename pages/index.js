@@ -1,10 +1,9 @@
-import Picker from "../components/picker";
-import Welcome from "../components/welcome";
+import PaletteManager from "../components/paletteManager";
 
 const Home = () => {
   return (
     <div>
-      <Picker />
+      <PaletteManager />
     </div>
   )
 };
