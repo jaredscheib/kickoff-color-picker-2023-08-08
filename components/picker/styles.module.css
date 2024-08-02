@@ -1,0 +1,20 @@
+.pickerContainer {
+  display: flex;
+  width: 100px;
+  flex-direction: row;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  width: 50px;
+}
+
+.rgbInput {
+  width: 50px;
+}
+
+.rgbColor {
+  width: 50px;
+  border: 1px solid black;
+}
