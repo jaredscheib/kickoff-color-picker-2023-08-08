@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { v4 as uuidv4 } from 'uuid';
 
 import Palette from '../palette'
 
@@ -33,8 +34,6 @@ const newPalette = [
 const PaletteManager = () => {
   const [ palettes, setPalettes ] = useState([])
 
-  console.log('palettes', palettes)
-
   const createPalette = () => {
     setPalettes([...palettes, [...newPalette]])
   }
@@ -43,7 +42,7 @@ const PaletteManager = () => {
     <div className={"paletteManager"}>
       <button onClick={createPalette}>{"Create Palette"}</button>
       {palettes.map(palette => {
-        return <Palette palette={palette} />
+        return <Palette key={uuidv4()} palette={palette} />
       })}
     </div>
   )
