@@ -1,14 +1,34 @@
-import { v4 as uuidv4 } from 'uuid';
+import { useContext } from 'react'
 
 import Picker from '../picker'
+import { AppContext } from '../paletteManager'
 
 import s from './styles.module.css'
 
-const Palette = ({palette}) => {
+const Palette = ({paletteId, onUpdatePalette}) => {
+  const { palettes } = useContext(AppContext)
+
+  const handleUpdateColors = (nextColors) => {
+    onUpdatePalette(nextColors, paletteId)
+  }
+
+  const palette = palettes.find(palette => palette.clientId === paletteId)
+
   return (
     <div className={s.palette}>
       <div className={s.paletteRow}>
-        {palette.map(rgb => <Picker key={uuidv4()} {...rgb} />)}
+        {palette ?
+          palette.colors.map(({clientId, r, g, b}) =>
+            <Picker
+              key={clientId}
+              colorsClientId={clientId}
+              r={r}
+              g={g}
+              b={b}
+              onUpdateColors={handleUpdateColors}
+            />)
+          : null
+        }
       </div>
     </div>
   )

@@ -1,50 +1,32 @@
-import { useState } from 'react'
-import { v4 as uuidv4 } from 'uuid';
+import { createContext, useReducer } from 'react'
 
 import Palette from '../palette'
+import appReducer, { initAppState } from '../../reducers';
 
-const newPalette = [
-  {
-    r: 0,
-    g: 0,
-    b: 0,
-  },
-  {
-    r: 0,
-    g: 0,
-    b: 0,
-  },
-  {
-    r: 0,
-    g: 0,
-    b: 0,
-  },
-  {
-    r: 0,
-    g: 0,
-    b: 0,
-  },
-  {
-    r: 0,
-    g: 0,
-    b: 0,
-  },
-]
+export const AppContext = createContext(null)
 
 const PaletteManager = () => {
-  const [ palettes, setPalettes ] = useState([])
+  const [ state, dispatch ] = useReducer(appReducer, null, initAppState)
 
-  const createPalette = () => {
-    setPalettes([...palettes, [...newPalette]])
+  const handleCreatePalette = () => {
+    dispatch({ type: 'createPalette' })
+  }
+
+  const handleUpdatePalette = (nextColors, targetPaletteClientId) => {
+    dispatch({ type: 'updatePalette', payload: { nextColors, targetPaletteClientId }} )
   }
 
   return (
-    <div className={"paletteManager"}>
-      <button onClick={createPalette}>{"Create Palette"}</button>
-      {palettes.map(palette => {
-        return <Palette key={uuidv4()} palette={palette} />
-      })}
-    </div>
+    <AppContext.Provider value={state}>
+      <div className={"paletteManager"}>
+        <button onClick={handleCreatePalette}>{"Create Palette"}</button>
+        {state.palettes.length ?
+          state.palettes.map(palette => {
+            return <Palette key={palette.clientId} paletteId={palette.clientId} onUpdatePalette={handleUpdatePalette} />
+          })
+          : null}
+      </div>
+    </AppContext.Provider>
   )
 }
 
