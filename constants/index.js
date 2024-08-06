@@ -4,6 +4,14 @@ export const defaultAppState = {
   palettes: []
 }
 
+export const emptyNewPaletteFlat = {
+  rgb0: '0-0-0',
+  rgb1: '0-0-0',
+  rgb2: '0-0-0',
+  rgb3: '0-0-0',
+  rgb4: '0-0-0',
+}
+
 export const defaultNewPalette = () => ({
   clientId: uuidv4(),
   colors: [

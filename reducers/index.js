@@ -1,4 +1,4 @@
-import { defaultAppState, defaultNewPalette } from "../constants"
+import { defaultAppState } from "../constants"
 
 export const initAppState = () => {
   return { ...defaultAppState}
@@ -10,7 +10,7 @@ const appReducer = (state, action) => {
       return {
         palettes: [
           ...state.palettes,
-          { ...defaultNewPalette() },
+          ...action.payload.newPalette,
         ]
       }
     }
