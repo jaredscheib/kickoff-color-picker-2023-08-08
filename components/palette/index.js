@@ -9,7 +9,7 @@ const Palette = ({paletteId, onUpdatePalette}) => {
   const { palettes } = useContext(AppContext)
 
   const handleUpdateColors = (nextColors) => {
-    onUpdatePalette(nextColors, paletteId)
+    onUpdatePalette(paletteId, nextColors)
   }
 
   const palette = palettes.find(palette => palette.clientId === paletteId)

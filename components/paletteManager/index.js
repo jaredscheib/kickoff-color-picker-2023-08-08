@@ -1,36 +1,31 @@
-import { createContext, useEffect, useReducer } from 'react'
-import axios from 'axios'
+import { createContext, useEffect } from 'react'
 
-import Palette from '../palette'
+import { useReducerWithThunk } from '../../helpers/customHooks';
 import appReducer, { initAppState } from '../../reducers';
-import { emptyNewPaletteFlat } from "../../constants"
+import { createEmptyPaletteAction, deletePaletteAction, fetchPalettesAction } from '../../actions';
+import Palette from '../palette'
 
 export const AppContext = createContext(null)
 
 const PaletteManager = () => {
-  const [ state, dispatch ] = useReducer(appReducer, null, initAppState)
+  const [ state, dispatch ] = useReducerWithThunk(appReducer, null, initAppState)
 
-  const handleCreateEmptyPalette = async () => {
-    const { status, data } = await axios.post('/api/palettes', { ...emptyNewPaletteFlat })
-    dispatch({ type: 'createPalette', payload: { newPalette: data } })
+  const handleCreateEmptyPalette = () => {
+    dispatch(createEmptyPaletteAction())
   }
 
-  const handleUpdatePalette = (nextColors, targetPaletteClientId) => {
-    dispatch({ type: 'updatePalette', payload: { nextColors, targetPaletteClientId }} )
+  // const handleDeletePalette = (targetPaletteId) => {
+  //   dispatch(createEmptyPaletteAction(targetPaletteId))
+  // }
+
+  // TODO: target by server id, not client id
+  const handleUpdatePalette = (targetPaletteClientId, nextColors) => {
+    dispatch(updatePaletteAction(targetPaletteClientId, nextColors))
   }
 
   useEffect(() => {
-    const fetchPalettes = async () => {
-      const { status, data } = await axios.get('/api/palettes')
-      console.log('status, data', status, data)
-    }
-    fetchPalettes()
-    // const deletePalette = async () => {
-    //   const { status } = await axios.delete('/api/palettes', { id: 1 })
-    //   // dispatch remove from state
-    // }
-    // deletePalette()
-  }, [axios])
+    dispatch(fetchPalettesAction())
+  }, [])
 
   return (
     <AppContext.Provider value={state}>
